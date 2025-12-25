@@ -12,6 +12,8 @@ pnpm-debug.log*
 
 # Claude specific directories
 .claude/
+.cunzhi-memory/
+*.jsonl
 
 # MCP configuration (local only)
 .mcp.json
@@ -247,3 +249,8 @@ web/apiStats/
 
 # Admin SPA build files
 web/admin-spa/dist/
+
+# Local debug dumps (should never be committed)
+# anthropic-*-dump.jsonl
+# antigravity-upstream-*-dump.jsonl
+# rollout-*.jsonl
