@@ -275,6 +275,11 @@ class Application {
       }
 
       // 🛣️ 路由
+      const markGeminiRoute = (req, res, next) => {
+        req._geminiRoute = true
+        next()
+      }
+
       this.app.use('/api', apiRoutes)
       this.app.use('/api', unifiedRoutes) // 统一智能路由（支持 /v1/chat/completions 等）
       this.app.use('/claude', apiRoutes) // /claude 路由别名，与 /api 功能相同
@@ -303,8 +308,8 @@ class Application {
       this.app.use('/web', webRoutes)
       this.app.use('/apiStats', apiStatsRoutes)
       // Gemini 路由：同时支持标准格式和原有格式
-      this.app.use('/gemini', standardGeminiRoutes) // 标准 Gemini API 格式路由
-      this.app.use('/gemini', geminiRoutes) // 保留原有路径以保持向后兼容
+      this.app.use('/gemini', markGeminiRoute, standardGeminiRoutes) // 标准 Gemini API 格式路由
+      this.app.use('/gemini', markGeminiRoute, geminiRoutes) // 保留原有路径以保持向后兼容
       this.app.use('/openai/gemini', openaiGeminiRoutes)
       this.app.use('/openai/claude', openaiClaudeRoutes)
       this.app.use('/openai', unifiedRoutes) // 复用统一智能路由，支持 /openai/v1/chat/completions
